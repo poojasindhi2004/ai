@@ -2,18 +2,29 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import {sendOtp} from "../services/api.services";
 
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
+  const [loading, setLoading]=useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
     if (!email.trim()) return;
+    try{
+        setLoading(true);
+        await sendOtp(email);
 
-    router.push("/verify-email");
-  };
+       router.push(`/verify-email?email=${encodeURIComponent(email)}`);
+  } catch (error) {
+    console.error(error.message);
+    alert(error.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0D0D0D] px-6 text-white">
