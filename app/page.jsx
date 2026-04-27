@@ -115,7 +115,7 @@ export default function AIChatHomePage() {
 
               <div className="flex gap-3">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-white font-semibold text-black">
-                  MY
+                  
                 </div>
                 <div className="max-w-2xl rounded-3xl rounded-tl-md bg-black/40 px-5 py-4 text-white/80">
                   I can also connect charts, real-time metrics, and export reports.
