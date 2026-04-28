@@ -2,29 +2,31 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import {sendOtp} from "../services/api.services";
+import { sendOtp } from "../services/api.services";
 
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
-  const [loading, setLoading]=useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!email.trim()) return;
-    try{
-        setLoading(true);
-        await sendOtp(email);
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail || loading) return;
 
-       router.push(`/verify-email?email=${encodeURIComponent(email)}`);
-  } catch (error) {
-    console.error(error.message);
-    alert(error.message);
-  } finally {
-    setLoading(false);
-  }
-};
+    try {
+      setLoading(true);
+      await sendOtp(trimmedEmail);
+      router.push(`/verify-email?email=${encodeURIComponent(trimmedEmail)}`);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Something went wrong.";
+      console.error(message);
+      alert(message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0D0D0D] px-6 text-white">
@@ -57,6 +59,8 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
+                autoComplete="email"
+                required
                 className="w-full bg-transparent py-4 text-white placeholder:text-white/30 outline-none"
               />
             </div>
@@ -64,10 +68,10 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            disabled={!email.trim()}
+            disabled={!email.trim() || loading}
             className="w-full rounded-2xl bg-white py-3 font-medium text-black transition hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            Continue
+            {loading ? "Sending OTP..." : "Continue"}
           </button>
         </form>
 
@@ -79,7 +83,7 @@ export default function LoginPage() {
           onClick={() => router.push("/")}
           className="mt-6 w-full text-sm text-white/50 transition hover:text-white"
         >
-          ← Back to Home
+          {"<- Back to Home"}
         </button>
       </div>
     </main>
