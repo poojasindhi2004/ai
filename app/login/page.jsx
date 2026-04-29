@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { sendOtp } from "../services/api.services";
+import { clearAuthToken, sendOtp } from "../services/api.services";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -17,6 +17,7 @@ export default function LoginPage() {
 
     try {
       setLoading(true);
+      clearAuthToken();
       await sendOtp(trimmedEmail);
       router.push(`/verify-email?email=${encodeURIComponent(trimmedEmail)}`);
     } catch (error) {

@@ -81,7 +81,13 @@ function VerifyEmailContent() {
       setLoading(true);
       setMessage("");
 
-      await verifyOtp(email, otpValue);
+      const response = await verifyOtp(email, otpValue);
+
+      if (response.requiresRegistration || response.nextStep === "register" || response.userExists === false) {
+        router.push(`/user-reg?email=${encodeURIComponent(email)}`);
+        return;
+      }
+
       router.push("/");
     } catch (error) {
       setMessage(

@@ -26,13 +26,16 @@ export default function AIChatHomePage() {
 
           <div className="flex items-center gap-3">
             <button
-              onClick={() => router.push("/login")}
+              onClick={() => router.push("/sign-in")}
               className="rounded-xl px-4 py-2 text-sm text-white/80 transition hover:bg-white/5"
             >
               Log in
             </button>
 
-            <button className="rounded-xl bg-white px-4 py-2 text-sm font-medium text-black transition hover:bg-white/90">
+            <button
+              onClick={() => router.push("/sign-up")}
+              className="rounded-xl bg-white px-4 py-2 text-sm font-medium text-black transition hover:bg-white/90"
+            >
               Start Free
             </button>
           </div>
@@ -115,7 +118,7 @@ export default function AIChatHomePage() {
 
               <div className="flex gap-3">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-white font-semibold text-black">
-                  
+                  MY
                 </div>
                 <div className="max-w-2xl rounded-3xl rounded-tl-md bg-black/40 px-5 py-4 text-white/80">
                   I can also connect charts, real-time metrics, and export reports.
